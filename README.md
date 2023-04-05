@@ -1,1 +1,3 @@
 # VectoRabit
+
+Simple Vector Database
