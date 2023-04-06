@@ -13,7 +13,7 @@ endif()
 project ("VectoRabit")
 
 # Add source to this project's executable.
-add_executable (VectoRabit "VectoRabit.cpp" "VectoRabit.h"  )
+add_executable (VectoRabit "VectoRabit.cpp" "BallTree.cpp" "VectoRabit.h" "BallTree.h")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET VectoRabit PROPERTY CXX_STANDARD 20)

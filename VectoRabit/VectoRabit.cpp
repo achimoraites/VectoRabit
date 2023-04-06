@@ -1,22 +1,32 @@
-﻿// VectoRabit.cpp : Defines the entry point for the application.
-//
-
-#include <iostream>
+﻿#include <iostream>
 #include <Eigen/Dense>
 
-#include "VectoRabit.h"
+#include "BallTree.h"
 
 using namespace std;
 
 
 int main() {
-    Eigen::Matrix2d A;
-    A << 1, 2,
-        3, 4;
-    Eigen::Vector2d b(5, 6);
-    Eigen::Vector2d x = A.colPivHouseholderQr().solve(b);
+    // Generate random data
+    Eigen::MatrixXd data = Eigen::MatrixXd::Random(100, 3);
 
-    std::cout << "Solution: " << x.transpose() << std::endl;
+    // Build BallTree
+    BallTree tree(data);
+
+    // Define a query point
+    Eigen::VectorXd query_point(3);
+    query_point << 0.5, 0.5, 0.5;
+
+    // Find the 5 most similar vectors
+    int k = 5;
+    std::vector<Eigen::VectorXd> nearest_neighbors = tree.kNearestNeighbors(query_point, k);
+
+    // Print the results
+    std::cout << "Query point:\n" << query_point << "\n\n";
+    std::cout << k << " nearest neighbors:\n";
+    for (int i = 0; i < nearest_neighbors.size(); ++i) {
+        std::cout << "Neighbor " << i + 1 << ":\n" << nearest_neighbors[i].transpose() << "\n";
+    }
 
     return 0;
 }
