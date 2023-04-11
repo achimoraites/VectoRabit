@@ -21,6 +21,11 @@ endif()
 
 set(CMAKE_Fortran_COMPILER "NOTFOUND")
 
+# Find Crow
+find_package(Crow REQUIRED)
+
+
+
 # Download Eigen
 FetchContent_Declare(
   Eigen
@@ -29,4 +34,4 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(Eigen)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Eigen3::Eigen)
+target_link_libraries(${PROJECT_NAME} PRIVATE Eigen3::Eigen Crow::Crow)

@@ -61,24 +61,24 @@ VectorXi BallTree::indicesToSlice(const vector<int>& indices) {
     return slice;
 }
 
-std::vector<Eigen::VectorXd> BallTree::kNearestNeighbors(const Eigen::VectorXd& query_point, int k) const {
-    std::vector<std::pair<double, Eigen::VectorXd>> neighbors;
+vector<VectorXd> BallTree::kNearestNeighbors(const VectorXd& query_point, int k) const {
+    vector<pair<double, VectorXd>> neighbors;
     searchKNearestNeighbors(query_point, k, root, neighbors);
 
-    std::vector<Eigen::VectorXd> result;
+    vector<VectorXd> result;
     for (const auto& neighbor : neighbors) {
         result.push_back(neighbor.second);
     }
     return result;
 }
 
-void BallTree::searchKNearestNeighbors(const Eigen::VectorXd& query_point, int k, BallTreeNode::Ptr node, std::vector<std::pair<double, Eigen::VectorXd>>& neighbors) const {
+void BallTree::searchKNearestNeighbors(const VectorXd& query_point, int k, BallTreeNode::Ptr node, vector<pair<double, VectorXd>>& neighbors) const {
     if (!node) {
         return;
     }
 
     double dist_to_center = (query_point - node->center).norm();
-    double dist_to_farthest = neighbors.empty() ? std::numeric_limits<double>::max() : neighbors.front().first;
+    double dist_to_farthest = neighbors.empty() ? numeric_limits<double>::max() : neighbors.front().first;
 
     if (dist_to_center - node->radius > dist_to_farthest) {
         return;
@@ -88,11 +88,11 @@ void BallTree::searchKNearestNeighbors(const Eigen::VectorXd& query_point, int k
         double dist = (query_point - node->data.row(i).transpose()).norm();
         if (neighbors.size() < k || dist < dist_to_farthest) {
             neighbors.push_back({ dist, node->data.row(i) });
-            std::push_heap(neighbors.begin(), neighbors.end(), [](const std::pair<double, Eigen::VectorXd>& a, const std::pair<double, Eigen::VectorXd>& b) {
+            push_heap(neighbors.begin(), neighbors.end(), [](const pair<double, VectorXd>& a, const pair<double, VectorXd>& b) {
                 return a.first < b.first;
                 });
             if (neighbors.size() > k) {
-                std::pop_heap(neighbors.begin(), neighbors.end(), [](const std::pair<double, Eigen::VectorXd>& a, const std::pair<double, Eigen::VectorXd>& b) {
+                pop_heap(neighbors.begin(), neighbors.end(), [](const pair<double, VectorXd>& a, const pair<double, VectorXd>& b) {
                     return a.first < b.first;
                     });
                 neighbors.pop_back();
