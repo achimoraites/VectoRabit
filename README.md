@@ -3,6 +3,9 @@
 This project aims to enable users to quickly find the most similar vectors to a given query vector within a large dataset. 
 It utilizes the Eigen library for linear algebra operations and the Crow library to create a RESTful API.
 
+![tmp9ncaxdv6](https://user-images.githubusercontent.com/4193340/232201761-a9c00b06-d08e-4f1e-ad76-a29400cd0171.png)
+
+
 ## Key Features:
 - **Nearest-neighbors search** 
 - **RESTful API**: allows users to send vector data and query via HTTP requests.
